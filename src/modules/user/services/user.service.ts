@@ -12,19 +12,19 @@ export class UserService {
   ) {}
 
   async findAll(): Promise<UserEntity[]> {
-    return this.repo.find();
+    return this.repo.find({ relations: ['manager', 'subordinates'] });
   }
 
   async create(data: Partial<CreateUserDto>): Promise<UserEntity> {
     const { username } = data;
-    let user = await this.repo.findOne({ where: { username } });
+    let user = await this.repo.findOne({ username });
     if (user) {
       throw new HttpException('User already exists', HttpStatus.BAD_REQUEST);
     }
     user = await this.repo.create(data);
     if (data.managerId) {
-      user.manager = await this.repo.findOne({
-        where: { id: data.managerId },
+      user.manager = await this.repo.findOne(data.managerId, {
+        relations: ['subordinates'],
       });
     }
     const documentsCount = await this.repo.count();
@@ -37,7 +37,10 @@ export class UserService {
   }
 
   async login({ username, password }): Promise<UserEntity> {
-    const user = await this.repo.findOne({ where: { username } });
+    const user = await this.repo.findOne(
+      { username },
+      { relations: ['manager', 'subordinates'] },
+    );
     if (!user || !(await user.comparePassword(password))) {
       throw new HttpException(
         'Invalid username/password',
@@ -49,7 +52,9 @@ export class UserService {
   }
 
   async findOneById(id: string): Promise<UserEntity> {
-    const user = await this.repo.findOne({ where: { id } });
+    const user = await this.repo.findOne(id, {
+      relations: ['manager', 'subordinates'],
+    });
     if (!user) {
       throw new HttpException('No user in the DB!', HttpStatus.NO_CONTENT);
     }

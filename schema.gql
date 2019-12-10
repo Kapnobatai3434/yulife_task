@@ -3,18 +3,6 @@
 # !!!   DO NOT MODIFY THIS FILE BY YOURSELF   !!!
 # -----------------------------------------------
 
-type BaseEntity {
-  id: ID!
-  name: String!
-  username: String!
-  isActive: Boolean!
-  isArchived: Boolean!
-  createdAt: Date!
-  updatedAt: Date!
-  type: String!
-  token: String
-}
-
 input CreateUserDto {
   name: String!
   username: String!
@@ -24,19 +12,6 @@ input CreateUserDto {
 
 """Date custom scalar type"""
 scalar Date
-
-type ManagerEntity {
-  id: ID!
-  name: String!
-  username: String!
-  isActive: Boolean!
-  isArchived: Boolean!
-  createdAt: Date!
-  updatedAt: Date!
-  type: String!
-  token: String
-  subordinates: [UserEntity!]
-}
 
 type Mutation {
   create(createUser: CreateUserDto!): UserEntity!
@@ -58,6 +33,7 @@ type UserEntity {
   createdAt: Date!
   updatedAt: Date!
   type: String!
+  manager: UserEntity
+  subordinates: [UserEntity!]
   token: String
-  manager: ManagerEntity
 }

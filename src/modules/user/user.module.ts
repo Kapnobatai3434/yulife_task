@@ -4,10 +4,10 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { DateScalar } from '../../common/scalars';
 import { UserResolvers } from './resolvers';
 import { UserService } from './services';
-import { ManagerEntity, UserEntity } from './entities';
+import { UserEntity } from './entities';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([UserEntity, ManagerEntity])],
+  imports: [TypeOrmModule.forFeature([UserEntity])],
   providers: [UserResolvers, UserService, DateScalar],
 })
 export class UserModule {}

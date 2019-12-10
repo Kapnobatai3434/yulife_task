@@ -6,8 +6,7 @@
   "password": "mysecretpassword",
   "database": "test_task",
   "entities": [
-    "src/modules/user/entities/user.entity.ts",
-    "src/modules/user/entities/manager.entity.ts"
+    "src/modules/user/entities/user.entity.ts"
   ],
   "migrationsTableName": "migration",
   "migrations": [
