@@ -43,6 +43,14 @@ export class UserResolvers {
     return this.userService.promote(id);
   }
 
+  @Mutation(returns => UserEntity)
+  async assignToManager(
+    @Args('userId') userId: string,
+    @Args('managerId') managerId: string,
+  ) {
+    return this.userService.assignToManager(userId, managerId);
+  }
+
   @Mutation(returns => UserEntity, { nullable: true })
   @UseGuards(UserGuard)
   async delete(@Args('id') id: string) {

@@ -75,7 +75,7 @@ export class UserService {
   async promote(id: string): Promise<UserEntity> {
     const user = await this.repo.findOne(id);
 
-    if (user.type === UserType.Manager) {
+    if (user.type !== UserType.User) {
       throw new HttpException(
         'This user is already a manager!',
         HttpStatus.METHOD_NOT_ALLOWED,
@@ -84,6 +84,43 @@ export class UserService {
 
     user.type = UserType.Manager;
 
+    return this.repo.save(user);
+  }
+
+  async assignToManager(
+    userId: string,
+    managerId: string,
+  ): Promise<UserEntity> {
+    const user = await this.repo.findOne(userId, {
+      relations: ['manager', 'subordinates'],
+    });
+    if (!user) {
+      throw new HttpException('No user in the DB!', HttpStatus.NO_CONTENT);
+    }
+    if (user.type !== UserType.User) {
+      throw new HttpException(
+        'User can not be assigned to a manager',
+        HttpStatus.METHOD_NOT_ALLOWED,
+      );
+    }
+    if (user.manager) {
+      throw new HttpException(
+        'User already has a manager',
+        HttpStatus.METHOD_NOT_ALLOWED,
+      );
+    }
+    const manager = await this.repo.findOne(managerId);
+    if (!manager) {
+      throw new HttpException('No manager in the DB!', HttpStatus.NO_CONTENT);
+    }
+    if (manager.type === UserType.User) {
+      throw new HttpException(
+        'User can not be assigned to not another user',
+        HttpStatus.METHOD_NOT_ALLOWED,
+      );
+    }
+
+    user.manager = manager;
     return this.repo.save(user);
   }
 }
