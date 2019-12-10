@@ -14,13 +14,15 @@ import { Field, ID, ObjectType } from 'type-graphql';
 import * as bcrypt from 'bcryptjs';
 import * as jwt from 'jsonwebtoken';
 
+import { UserType } from '../interfaces';
+
 @Entity({ name: 'user' })
 @Index(['id', 'username'])
 @ObjectType()
 export class UserEntity {
   @PrimaryGeneratedColumn('uuid')
   @Field(type => ID)
-  readonly id: string;
+  id: string;
 
   @Column('text')
   @Field()
@@ -38,29 +40,29 @@ export class UserEntity {
 
   @Column({ type: 'boolean', default: true })
   @Field()
-  readonly isActive: boolean;
+  isActive: boolean;
 
   @Column({ type: 'boolean', default: false })
   @Field()
-  readonly isArchived: boolean;
+  isArchived: boolean;
 
   @CreateDateColumn({
     type: 'timestamptz',
     default: () => 'CURRENT_TIMESTAMP',
   })
   @Field()
-  readonly createdAt: Date;
+  createdAt: Date;
 
   @UpdateDateColumn({
     type: 'timestamptz',
     default: () => 'CURRENT_TIMESTAMP',
   })
   @Field()
-  readonly updatedAt: Date;
+  updatedAt: Date;
 
-  @Column({ type: 'text', default: 'user' })
+  @Column({ type: 'text', default: UserType.User })
   @Field()
-  type: string;
+  type: UserType;
 
   @Field(type => UserEntity, { nullable: true })
   @ManyToOne(

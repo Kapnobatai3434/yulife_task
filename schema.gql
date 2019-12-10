@@ -16,6 +16,7 @@ scalar Date
 type Mutation {
   create(createUser: CreateUserDto!): UserEntity!
   login(password: String!, username: String!): UserEntity!
+  promote(id: String!): UserEntity!
   delete(id: String!): UserEntity
 }
 

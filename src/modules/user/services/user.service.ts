@@ -4,6 +4,7 @@ import { Repository } from 'typeorm';
 
 import { UserEntity } from '../entities';
 import { CreateUserDto } from '../dto';
+import { UserType } from '../interfaces';
 
 @Injectable()
 export class UserService {
@@ -23,13 +24,11 @@ export class UserService {
     }
     user = await this.repo.create(data);
     if (data.managerId) {
-      user.manager = await this.repo.findOne(data.managerId, {
-        relations: ['subordinates'],
-      });
+      user.manager = await this.repo.findOne(data.managerId);
     }
     const documentsCount = await this.repo.count();
     if (documentsCount === 0) {
-      user.type = 'admin';
+      user.type = UserType.Admin;
     }
     await this.repo.save(user);
 
@@ -71,5 +70,20 @@ export class UserService {
         HttpStatus.INTERNAL_SERVER_ERROR,
       );
     }
+  }
+
+  async promote(id: string): Promise<UserEntity> {
+    const user = await this.repo.findOne(id);
+
+    if (user.type === UserType.Manager) {
+      throw new HttpException(
+        'This user is already a manager!',
+        HttpStatus.METHOD_NOT_ALLOWED,
+      );
+    }
+
+    user.type = UserType.Manager;
+
+    return this.repo.save(user);
   }
 }

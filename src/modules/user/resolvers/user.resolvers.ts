@@ -38,6 +38,11 @@ export class UserResolvers {
     return this.userService.login({ username, password });
   }
 
+  @Mutation(returns => UserEntity)
+  async promote(@Args('id') id: string) {
+    return this.userService.promote(id);
+  }
+
   @Mutation(returns => UserEntity, { nullable: true })
   @UseGuards(UserGuard)
   async delete(@Args('id') id: string) {
