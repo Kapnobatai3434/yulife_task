@@ -1,4 +1,4 @@
-import { Column, Entity, Index, ManyToOne } from 'typeorm';
+import { Column, Entity, Index, JoinColumn, ManyToOne } from 'typeorm';
 import { Field, ObjectType } from 'type-graphql';
 import { BaseEntity } from './base.entity';
 import { ManagerEntity } from './manager.entity';
@@ -7,12 +7,11 @@ import { ManagerEntity } from './manager.entity';
 @Index(['id', 'username'])
 @ObjectType()
 export class UserEntity extends BaseEntity {
+  @Field(type => ManagerEntity, { nullable: true })
   @ManyToOne(
     () => ManagerEntity,
     manager => manager.subordinates,
   )
-  @Field(type => ManagerEntity, { nullable: true })
+  @JoinColumn()
   manager?: ManagerEntity;
-  @Column({ nullable: true })
-  managerId: string;
 }

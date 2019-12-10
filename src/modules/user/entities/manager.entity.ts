@@ -1,4 +1,4 @@
-import { Column, Entity, Index, OneToMany } from 'typeorm';
+import { Column, Entity, Index, JoinColumn, OneToMany } from 'typeorm';
 import { Field, ObjectType } from 'type-graphql';
 import { BaseEntity } from './base.entity';
 import { UserEntity } from './user.entity';
@@ -7,13 +7,12 @@ import { UserEntity } from './user.entity';
 @Index(['id', 'username'])
 @ObjectType()
 export class ManagerEntity extends BaseEntity {
+  @Field(type => UserEntity, { nullable: true })
   @OneToMany(
     () => UserEntity,
     user => user.manager,
-    { cascade: ['insert'] },
+    { cascade: true },
   )
-  @Field(type => UserEntity, { nullable: true })
+  @JoinColumn()
   subordinates?: UserEntity[];
-  @Column({ nullable: true })
-  userId: string;
 }

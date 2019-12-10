@@ -22,6 +22,11 @@ export class UserService {
       throw new HttpException('User already exists', HttpStatus.BAD_REQUEST);
     }
     user = await this.repo.create(data);
+    if (data.managerId) {
+      user.manager = await this.repo.findOne({
+        where: { id: data.managerId },
+      });
+    }
     const documentsCount = await this.repo.count();
     if (documentsCount === 0) {
       user.type = 'admin';
