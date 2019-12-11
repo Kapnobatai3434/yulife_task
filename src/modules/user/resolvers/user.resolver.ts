@@ -1,4 +1,4 @@
-import { ParseUUIDPipe, UseGuards } from '@nestjs/common';
+import { UseGuards } from '@nestjs/common';
 import { Args, Mutation, Query, Resolver } from '@nestjs/graphql';
 
 import { UserGuard } from '../guards';
@@ -7,7 +7,7 @@ import { CreateUserDto } from '../dto';
 import { UserEntity } from '../entities';
 
 @Resolver(of => UserEntity)
-export class UserResolvers {
+export class UserResolver {
   constructor(private readonly userService: UserService) {}
 
   @Query(returns => [UserEntity])
@@ -19,7 +19,7 @@ export class UserResolvers {
   @Query(returns => UserEntity)
   @UseGuards(UserGuard)
   async findOneById(
-    @Args('id', ParseUUIDPipe)
+    @Args('id')
     id: string,
   ) {
     return this.userService.findOneById(id);
