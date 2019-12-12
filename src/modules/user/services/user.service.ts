@@ -20,9 +20,12 @@ export class UserService {
     const { username } = data;
     let user = await this.repo.findOne({ username });
     if (user) {
-      throw new HttpException('User already exists', HttpStatus.BAD_REQUEST);
+      throw new HttpException(
+        'User already exists',
+        HttpStatus.METHOD_NOT_ALLOWED,
+      );
     }
-    user = await this.repo.create(data);
+    user = this.repo.create(data);
     if (data.managerId) {
       user.manager = await this.repo.findOne(data.managerId);
     }
@@ -30,7 +33,7 @@ export class UserService {
     if (documentsCount === 0) {
       user.type = UserType.Admin;
     }
-    await this.repo.save(user);
+    user = await this.repo.save(user);
 
     return user;
   }
@@ -43,7 +46,7 @@ export class UserService {
     if (!user || !(await user.comparePassword(password))) {
       throw new HttpException(
         'Invalid username/password',
-        HttpStatus.BAD_REQUEST,
+        HttpStatus.METHOD_NOT_ALLOWED,
       );
     }
 
@@ -64,7 +67,7 @@ export class UserService {
   async delete(id: string): Promise<any> {
     try {
       return this.repo.delete(id);
-    } catch (e) {
+    } catch {
       throw new HttpException(
         'Failed to delete the user',
         HttpStatus.INTERNAL_SERVER_ERROR,
@@ -115,7 +118,7 @@ export class UserService {
     }
     if (manager.type === UserType.User) {
       throw new HttpException(
-        'User can not be assigned to not another user',
+        'User can not be assigned not to a manager',
         HttpStatus.METHOD_NOT_ALLOWED,
       );
     }
