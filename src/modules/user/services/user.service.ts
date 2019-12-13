@@ -26,13 +26,14 @@ export class UserService {
       );
     }
     user = this.repo.create(data);
-    if (data.managerId) {
-      user.manager = await this.repo.findOne(data.managerId);
-    }
+
     const documentsCount = await this.repo.count();
     if (documentsCount === 0) {
       user.type = UserType.Admin;
+    } else {
+      user.manager = await this.repo.findOne({ type: UserType.Admin });
     }
+
     user = await this.repo.save(user);
 
     return user;
@@ -75,7 +76,7 @@ export class UserService {
     }
   }
 
-  async promote(id: string): Promise<UserEntity> {
+  async changeManager(id: string): Promise<UserEntity> {
     const user = await this.repo.findOne(id);
 
     if (user.type !== UserType.User) {

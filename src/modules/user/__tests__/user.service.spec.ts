@@ -163,7 +163,7 @@ describe('UserService', () => {
       type: UserType.Manager,
     });
     userRepository.save.mockReturnValue(promotedUser);
-    const user = await userService.promote(testUser.id);
+    const user = await userService.changeManager(testUser.id);
 
     expect(user).toEqual(promotedUser);
   });
@@ -175,7 +175,7 @@ describe('UserService', () => {
     userRepository.findOne.mockReturnValue(promotedUser);
 
     userService
-      .promote(promotedUser.id)
+      .changeManager(promotedUser.id)
       .then(() =>
         done.fail(
           'Should return HttpException This user is already a manager!',

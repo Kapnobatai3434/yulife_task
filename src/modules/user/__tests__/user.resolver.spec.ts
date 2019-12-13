@@ -35,7 +35,7 @@ describe('UserResolver', () => {
 
   it('should return a new entity', async () => {
     userService.create.mockReturnValue(testUser);
-    const user = await userResolver.create(testUser);
+    const user = await userResolver.createUser(testUser);
 
     expect(user).toEqual(testUser);
   });
@@ -55,16 +55,16 @@ describe('UserResolver', () => {
   it('should return user on login', async () => {
     userService.login.mockReturnValue(testUser);
 
-    expect(await userResolver.login('fakeUsername', 'fake')).toEqual(testUser);
+    expect(await userResolver.loginUser('fakeUsername', 'fake')).toEqual(testUser);
   });
 
   it('should promote user', async () => {
     const userManager = userFixture({
       type: UserType.Manager,
     });
-    userService.promote.mockReturnValue(userManager);
+    userService.changeManager.mockReturnValue(userManager);
 
-    expect(await userResolver.promote(testUser.id)).toEqual(userManager);
+    expect(await userResolver.changeManager(testUser.id)).toEqual(userManager);
   });
 
   it('should assign to a manager', async () => {

@@ -26,12 +26,12 @@ export class UserResolver {
   }
 
   @Mutation(returns => UserEntity)
-  async create(@Args('createUser') args: CreateUserDto) {
+  async createUser(@Args('createUser') args: CreateUserDto) {
     return this.userService.create(args);
   }
 
   @Mutation(returns => UserEntity)
-  async login(
+  async loginUser(
     @Args('username') username: string,
     @Args('password') password: string,
   ) {
@@ -39,8 +39,8 @@ export class UserResolver {
   }
 
   @Mutation(returns => UserEntity)
-  async promote(@Args('id') id: string) {
-    return this.userService.promote(id);
+  async changeManager(@Args('id') id: string) {
+    return this.userService.changeManager(id);
   }
 
   @Mutation(returns => UserEntity)

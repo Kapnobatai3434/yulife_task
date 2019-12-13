@@ -47,7 +47,7 @@ export const serviceMockFactory: jest.Mock<
     login: jest.Mock<any, any>;
     findOneById: jest.Mock<any, any>;
     delete: jest.Mock<any, any>;
-    promote: jest.Mock<any, any>;
+    changeManager: jest.Mock<any, any>;
     assignToManager: jest.Mock<any, any>;
   },
   any[]
@@ -57,7 +57,7 @@ export const serviceMockFactory: jest.Mock<
   login: jest.fn(),
   findOneById: jest.fn(),
   delete: jest.fn(),
-  promote: jest.fn(),
+  changeManager: jest.fn(),
   assignToManager: jest.fn(),
 }));
 export type MockType<T> = {

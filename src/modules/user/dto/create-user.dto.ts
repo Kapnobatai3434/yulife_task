@@ -5,6 +5,7 @@ import {
   MinLength,
 } from 'class-validator';
 import { Field, InputType } from 'type-graphql';
+
 import { IUser } from '../interfaces';
 
 @InputType()
@@ -27,7 +28,4 @@ export class CreateUserDto implements IUser {
   @MinLength(8)
   @MaxLength(64)
   password: string;
-
-  @Field({ nullable: true })
-  managerId: string;
 }
