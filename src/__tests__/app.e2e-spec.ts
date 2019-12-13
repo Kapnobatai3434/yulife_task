@@ -39,7 +39,6 @@ describe('AppController (e2e)', () => {
         }
       `,
       variables: {},
-      authorization: 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImMyODM5OWI1LWVkNzctNDdkNC1hNjRiLTE1MTc0ZjRiMTdlNiIsInVzZXJuYW1lIjoic2RmIiwiaWF0IjoxNTc2MjIxNDUwLCJleHAiOjE1NzYyMjIzNTB9.1-aG2Qx-4W7f0uMEUE3KNbtap0vwr9krBm9cvh5VAbk'
     });
     console.log(result);
     // test whatever you want to test here
