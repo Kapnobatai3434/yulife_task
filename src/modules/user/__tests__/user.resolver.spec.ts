@@ -33,7 +33,7 @@ describe('UserResolver', () => {
     expect(userResolver).toBeDefined();
   });
 
-  it('should return a new entity', async () => {
+  it('should return a new user', async () => {
     userService.create.mockReturnValue(testUser);
     const user = await userResolver.createUser(testUser);
 

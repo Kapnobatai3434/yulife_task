@@ -51,27 +51,17 @@ describe('UserService', () => {
     expect(user).toEqual(adminUser);
   });
 
-  it('should create a new user', async () => {
-    userRepository.findOne.mockReturnValue(null);
-    userRepository.count.mockReturnValue(0);
-    userRepository.create.mockReturnValue(testUser);
-    userRepository.save.mockReturnValue(testUser);
-    const user = await userService.create(testUser);
-
-    expect(user).toEqual(testUser);
-  });
-
   it('should create a new user assigned to a manager', async () => {
-    const userWithManagerId = userFixture({ managerId: 'fakeid' });
+    const userWithManager = userFixture({ manager: testManager });
     userRepository.findOne
       .mockReturnValueOnce(null)
       .mockReturnValueOnce(testManager);
-    userRepository.count.mockReturnValue(0);
-    userRepository.create.mockReturnValue(userWithManagerId);
-    userRepository.save.mockReturnValue(userWithManagerId);
-    const user = await userService.create(userWithManagerId);
+    userRepository.count.mockReturnValue(1);
+    userRepository.create.mockReturnValue(userWithManager);
+    userRepository.save.mockReturnValue(userWithManager);
+    const user = await userService.create(testUser);
 
-    expect(user).toEqual(userWithManagerId);
+    expect(user).toEqual(userWithManager);
   });
 
   it('should show an error if user already exists', done => {
