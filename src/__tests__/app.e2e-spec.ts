@@ -9,7 +9,7 @@ import {
   createTestClient,
 } from 'apollo-server-testing';
 
-describe('AppController (e2e)', () => {
+describe.skip('AppController (e2e)', () => {
   let app: INestApplication;
   let apolloClient: ApolloServerTestClient;
 
