@@ -1,6 +1,7 @@
 import { TypeOrmModuleOptions } from '@nestjs/typeorm';
+import * as dotenv from 'dotenv';
 
-require('dotenv').config();
+dotenv.config();
 
 class ConfigService {
   constructor(private env: { [k: string]: string | undefined }) {}
@@ -31,23 +32,17 @@ class ConfigService {
   public getTypeOrmConfig(): TypeOrmModuleOptions {
     return {
       type: 'postgres',
-
       host: this.getValue('POSTGRES_HOST'),
       port: parseInt(this.getValue('POSTGRES_PORT'), 10),
       username: this.getValue('POSTGRES_USER'),
       password: this.getValue('POSTGRES_PASSWORD'),
       database: this.getValue('POSTGRES_DATABASE'),
-
       entities: ['src/modules/user/entities/user.entity.ts'],
-
       migrationsTableName: 'migration',
-
       migrations: ['src/migration/*.ts'],
-
       cli: {
         migrationsDir: 'src/migration',
       },
-
       ssl: this.isProduction(),
     };
   }

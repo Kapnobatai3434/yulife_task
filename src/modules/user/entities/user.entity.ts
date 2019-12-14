@@ -92,12 +92,13 @@ export class UserEntity {
 
   @Field({ nullable: true })
   private get token(): string {
-    const { id, username } = this;
+    const { id, username, type } = this;
 
     return jwt.sign(
       {
         id,
         username,
+        roles: [type],
       },
       process.env.SECRET,
       { expiresIn: '15m' },

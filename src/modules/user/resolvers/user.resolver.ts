@@ -1,23 +1,26 @@
 import { UseGuards } from '@nestjs/common';
 import { Args, Mutation, Query, Resolver } from '@nestjs/graphql';
 
-import { UserGuard } from '../guards';
+import { RolesGuard, UserGuard } from '../guards';
 import { UserService } from '../services';
 import { CreateUserDto } from '../dto';
 import { UserEntity } from '../entities';
+import { Roles } from '../decorators';
+import { UserType } from '../interfaces';
 
 @Resolver(of => UserEntity)
 export class UserResolver {
   constructor(private readonly userService: UserService) {}
 
+  @UseGuards(UserGuard, RolesGuard)
   @Query(returns => [UserEntity])
-  @UseGuards(UserGuard)
   async getUsers() {
     return this.userService.findAll();
   }
 
+  @UseGuards(UserGuard, RolesGuard)
   @Query(returns => UserEntity)
-  @UseGuards(UserGuard)
+  @Roles(UserType.Admin, UserType.Manager)
   async findOneById(
     @Args('id')
     id: string,
@@ -38,11 +41,13 @@ export class UserResolver {
     return this.userService.login({ username, password });
   }
 
+  @UseGuards(UserGuard, RolesGuard)
   @Mutation(returns => UserEntity)
   async changeManager(@Args('id') id: string) {
     return this.userService.changeManager(id);
   }
 
+  @UseGuards(UserGuard, RolesGuard)
   @Mutation(returns => UserEntity)
   async assignToManager(
     @Args('userId') userId: string,
@@ -51,8 +56,8 @@ export class UserResolver {
     return this.userService.assignToManager(userId, managerId);
   }
 
+  @UseGuards(UserGuard, RolesGuard)
   @Mutation(returns => UserEntity, { nullable: true })
-  @UseGuards(UserGuard)
   async delete(@Args('id') id: string) {
     return this.userService.delete(id);
   }
