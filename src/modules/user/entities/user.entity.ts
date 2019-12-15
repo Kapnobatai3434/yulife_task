@@ -72,7 +72,7 @@ export class UserEntity {
   @JoinColumn()
   manager?: UserEntity;
 
-  @Field(type => UserEntity, { nullable: true })
+  @Field(type => [UserEntity], { nullable: true })
   @OneToMany(
     () => UserEntity,
     user => user.manager,

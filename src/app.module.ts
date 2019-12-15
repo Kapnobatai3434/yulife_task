@@ -11,7 +11,7 @@ import { configService } from './config';
     UserModule,
     GraphQLModule.forRoot({
       autoSchemaFile: 'schema.gql',
-      context: ({ req }) => ({ headers: req.headers }),
+      context: ({ req }) => ({ req }),
     }),
     TypeOrmModule.forRoot(configService.getTypeOrmConfig()),
   ],

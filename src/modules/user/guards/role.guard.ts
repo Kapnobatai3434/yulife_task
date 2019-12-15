@@ -16,8 +16,8 @@ export class RolesGuard implements CanActivate {
     if (!roles) {
       return true;
     }
-    const ctx: any = GqlExecutionContext.create(context).getContext();
-    const user = ctx.user;
+    const { req }: any = GqlExecutionContext.create(context).getContext();
+    const user = req.user;
     if (!user) {
       throw new UnauthorizedException();
     }

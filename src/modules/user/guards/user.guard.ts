@@ -11,11 +11,11 @@ import * as jwt from 'jsonwebtoken';
 @Injectable()
 export class UserGuard implements CanActivate {
   async canActivate(context: ExecutionContext): Promise<boolean> {
-    const ctx: any = GqlExecutionContext.create(context).getContext();
-    if (!ctx.headers.authorization) {
+    const { req }: any = GqlExecutionContext.create(context).getContext();
+    if (!req || !req.headers || !req.headers.authorization) {
       return false;
     }
-    ctx.user = await this.validateToken(ctx.headers.authorization);
+    req.user = await this.validateToken(req.headers.authorization);
     return true;
   }
 

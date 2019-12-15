@@ -5,22 +5,31 @@ import { RolesGuard, UserGuard } from '../guards';
 import { UserService } from '../services';
 import { CreateUserDto } from '../dto';
 import { UserEntity } from '../entities';
-import { Roles } from '../decorators';
+import { CurrentUser, Roles } from '../decorators';
 import { UserType } from '../interfaces';
 
 @Resolver(of => UserEntity)
 export class UserResolver {
-  constructor(private readonly userService: UserService) {}
+  constructor(
+    private readonly userService: UserService,
+  ) {}
 
-  @UseGuards(UserGuard, RolesGuard)
+  @Query(returns => UserEntity)
+  @UseGuards(UserGuard)
+  whoAmI(@CurrentUser() user: UserEntity) {
+    return this.userService.findOneById(user.id);
+  }
+
   @Query(returns => [UserEntity])
+  @Roles(UserType.Admin, UserType.Manager)
+  @UseGuards(UserGuard, RolesGuard)
   async getUsers() {
     return this.userService.findAll();
   }
 
-  @UseGuards(UserGuard, RolesGuard)
   @Query(returns => UserEntity)
   @Roles(UserType.Admin, UserType.Manager)
+  @UseGuards(UserGuard, RolesGuard)
   async findOneById(
     @Args('id')
     id: string,
@@ -41,14 +50,16 @@ export class UserResolver {
     return this.userService.login({ username, password });
   }
 
-  @UseGuards(UserGuard, RolesGuard)
   @Mutation(returns => UserEntity)
+  @Roles(UserType.Admin, UserType.Manager)
+  @UseGuards(UserGuard, RolesGuard)
   async changeManager(@Args('id') id: string) {
     return this.userService.changeManager(id);
   }
 
-  @UseGuards(UserGuard, RolesGuard)
   @Mutation(returns => UserEntity)
+  @Roles(UserType.Admin, UserType.Manager)
+  @UseGuards(UserGuard, RolesGuard)
   async assignToManager(
     @Args('userId') userId: string,
     @Args('managerId') managerId: string,
@@ -56,8 +67,9 @@ export class UserResolver {
     return this.userService.assignToManager(userId, managerId);
   }
 
-  @UseGuards(UserGuard, RolesGuard)
   @Mutation(returns => UserEntity, { nullable: true })
+  @Roles(UserType.Admin, UserType.Manager)
+  @UseGuards(UserGuard, RolesGuard)
   async delete(@Args('id') id: string) {
     return this.userService.delete(id);
   }
