@@ -107,7 +107,7 @@ export class UserService {
         HttpStatus.METHOD_NOT_ALLOWED,
       );
     }
-    if (user.manager) {
+    if (user.manager && user.manager.type !== UserType.Admin) {
       throw new HttpException(
         'User already has a manager',
         HttpStatus.METHOD_NOT_ALLOWED,
