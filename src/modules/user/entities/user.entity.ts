@@ -46,18 +46,12 @@ export class UserEntity {
   @Field()
   isArchived: boolean;
 
-  @CreateDateColumn({
-    type: 'timestamptz',
-    default: () => 'CURRENT_TIMESTAMP',
-  })
-  @Field()
+  @CreateDateColumn()
+  @Field(type => Date)
   createdAt: Date;
 
-  @UpdateDateColumn({
-    type: 'timestamptz',
-    default: () => 'CURRENT_TIMESTAMP',
-  })
-  @Field()
+  @UpdateDateColumn()
+  @Field(type => Date)
   updatedAt: Date;
 
   @Column({ type: 'text', default: UserType.User })

@@ -46,6 +46,17 @@ class ConfigService {
       ssl: this.isProduction(),
     };
   }
+
+  public getTestingOrmConfig(): TypeOrmModuleOptions {
+    return {
+      type: 'sqlite',
+      database: ':memory:',
+      dropSchema: true,
+      entities: ['src/modules/user/entities/user.entity.ts'],
+      synchronize: true,
+      logging: false,
+    };
+  }
 }
 
 const configService = new ConfigService(process.env).ensureValues([

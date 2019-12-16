@@ -4,11 +4,13 @@
 ```
 npm ci
 
-npm run start:dev:db
+npm run start:dev:db //you might need to add permissions
 
 npm run typeorm:migration:generate -- init
 
 npm run typeorm:migration:run
+
+npm run seed //if you want to populate DB with some data
 
 npm start
 
@@ -25,7 +27,10 @@ go to http://localhost:3000/graphql to see GraphQl Playground
 }
 ```
 
-##### There are around 25 unit tests for resolver and service. I'm working on e2e tests.
+##### There are around 25 unit tests for resolver and service.
+For e2e tests I'm using sqlite db, populating it with seed data. 
+
+That way I'm able to cover all integration logic, middlewares and etc without using production DB.
 
 ```
 npm t
