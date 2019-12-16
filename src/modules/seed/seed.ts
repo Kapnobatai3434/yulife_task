@@ -9,11 +9,7 @@ async function bootstrap() {
     .then(appContext => {
       const seeder = appContext.get(Seeder);
 
-      try {
-        users.map(user => seeder.seed(user));
-      } catch (e) {
-        console.error(e);
-      }
+      return Promise.all(users.map(async user => await seeder.seed(user)));
     })
     .catch(error => {
       throw error;
