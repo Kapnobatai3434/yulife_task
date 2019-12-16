@@ -121,6 +121,29 @@ describe('e2e', () => {
     expect(whoAmI.type).toEqual(UserType.Admin);
   });
 
+  it('should trow an error because JWT token is expired', async () => {
+    token =
+      'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjQ1N2I2MWUzLTE3OTctNGM2ZC05NjgyLTk5NjIzMzgyOTA4NiIsInVzZXJuYW1lIjoiZmFrZSIsInJvbGVzIjpbImFkbWluIl0sImlhdCI6MTU3NjQxMTIyMSwiZXhwIjoxNTc2NDEyMTIxfQ.FP9l4z6FO_ex216rbMEZowjSkxxv-BiNA_de0QxUFys';
+
+    const { errors }: any = await query({
+      query: WHO_AM_I,
+    });
+
+    expect(errors.length).toBeTruthy();
+    expect(errors[0].message).toEqual('Token error: jwt expired');
+  });
+
+  it('should trow an error because JWT has the wrong format', async () => {
+    token = null;
+
+    const { errors }: any = await query({
+      query: WHO_AM_I,
+    });
+
+    expect(errors.length).toBeTruthy();
+    expect(errors[0].message).toEqual('Token error: jwt malformed');
+  });
+
   afterAll(async () => {
     await app.close();
   });
