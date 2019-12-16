@@ -1,13 +1,13 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { INestApplication } from '@nestjs/common';
 import { GraphQLModule } from '@nestjs/graphql';
+import { TypeOrmModule } from '@nestjs/typeorm';
 import {
   ApolloServerTestClient,
   createTestClient,
 } from 'apollo-server-testing';
 
 import { UserModule } from '../modules/user';
-import { TypeOrmModule } from '@nestjs/typeorm';
 import { configService } from '../config';
 import { Seeder } from '../modules/seed/seeder';
 import { users } from '../modules/seed/data';
@@ -23,7 +23,7 @@ describe('e2e', () => {
   let mutate;
   let query;
 
-  beforeEach(async () => {
+  beforeAll(async () => {
     const moduleFixture: TestingModule = await Test.createTestingModule({
       imports: [
         UserModule,
@@ -50,7 +50,7 @@ describe('e2e', () => {
     mutate = apolloClient.mutate;
     query = apolloClient.query;
 
-    await Promise.all(users.map(async user => await seeder.seed(user)));
+    return Promise.all(users.map(async user => await seeder.seed(user)));
   });
 
   it('should login as admin', async () => {
@@ -111,7 +111,7 @@ describe('e2e', () => {
     expect(getUsers.length).toBeGreaterThan(2);
   });
 
-  it.skip('should return admin for whoAmI query', async () => {
+  it('should return admin for whoAmI query', async () => {
     const {
       data: { whoAmI },
     }: any = await query({
@@ -121,7 +121,7 @@ describe('e2e', () => {
     expect(whoAmI.type).toEqual(UserType.Admin);
   });
 
-  afterEach(async () => {
+  afterAll(async () => {
     await app.close();
   });
 });

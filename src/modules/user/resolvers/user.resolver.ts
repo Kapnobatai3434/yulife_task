@@ -10,12 +10,11 @@ import { UserType } from '../interfaces';
 
 @Resolver(of => UserEntity)
 export class UserResolver {
-  constructor(
-    private readonly userService: UserService,
-  ) {}
+  constructor(private readonly userService: UserService) {}
 
   @Query(returns => UserEntity)
-  @UseGuards(UserGuard)
+  @Roles(UserType.Admin, UserType.Manager, UserType.User)
+  @UseGuards(UserGuard, RolesGuard)
   whoAmI(@CurrentUser() user: UserEntity) {
     return this.userService.findOneById(user.id);
   }

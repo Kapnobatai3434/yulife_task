@@ -26,6 +26,8 @@ export const FIND_ALL_USERS = gql`
       name
       id
       username
+      createdAt
+      updatedAt
       manager {
         name
         id
