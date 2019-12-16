@@ -29,7 +29,7 @@ describe('e2e', () => {
         UserModule,
         GraphQLModule.forRoot({
           autoSchemaFile: 'schema.gql',
-          context: ({ req }) => ({
+          context: () => ({
             req: { headers: { authorization: 'Bearer ' + token } },
           }),
         }),

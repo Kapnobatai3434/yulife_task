@@ -66,14 +66,7 @@ export class UserService {
   }
 
   async delete(id: string): Promise<any> {
-    try {
-      return this.repo.delete(id);
-    } catch {
-      throw new HttpException(
-        'Failed to delete the user',
-        HttpStatus.INTERNAL_SERVER_ERROR,
-      );
-    }
+    return this.repo.delete(id);
   }
 
   async changeManager(id: string): Promise<UserEntity> {

@@ -137,16 +137,6 @@ describe('UserService', () => {
     expect(await userService.delete(testUser.id)).toEqual(true);
   });
 
-  it('should show an error when it is not possible to delete an user', () => {
-    userRepository.delete.mockImplementation(null);
-
-    // TODO: This test is not working properly, needs refactor
-    userService.delete(testUser.id).catch(error => {
-      expect(error.status).toBe(500);
-      expect(error.message).toBe('Failed to delete the user');
-    });
-  });
-
   it('should return promoted user', async () => {
     userRepository.findOne.mockReturnValue(testUser);
     const promotedUser = userFixture({
