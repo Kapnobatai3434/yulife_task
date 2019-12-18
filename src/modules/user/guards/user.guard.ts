@@ -8,6 +8,8 @@ import {
 import { GqlExecutionContext } from '@nestjs/graphql';
 import * as jwt from 'jsonwebtoken';
 
+import { configService } from '../../../config';
+
 @Injectable()
 export class UserGuard implements CanActivate {
   async canActivate(context: ExecutionContext): Promise<boolean> {
@@ -26,7 +28,7 @@ export class UserGuard implements CanActivate {
     const token = auth.split(' ')[1];
 
     try {
-      return await jwt.verify(token, process.env.SECRET);
+      return await jwt.verify(token, configService.getSecret());
     } catch (err) {
       const message = 'Token error: ' + (err.message || err.name);
       throw new HttpException(message, HttpStatus.UNAUTHORIZED);

@@ -15,6 +15,7 @@ import * as bcrypt from 'bcryptjs';
 import * as jwt from 'jsonwebtoken';
 
 import { UserType } from '../interfaces';
+import { configService } from '../../../config';
 
 @Entity({ name: 'user' })
 @Index(['id', 'username'])
@@ -94,7 +95,7 @@ export class UserEntity {
         username,
         roles: [type],
       },
-      process.env.SECRET,
+      configService.getSecret(),
       { expiresIn: '15m' },
     );
   }
