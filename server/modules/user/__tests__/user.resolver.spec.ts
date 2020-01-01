@@ -55,7 +55,9 @@ describe('UserResolver', () => {
   it('should return user on login', async () => {
     userService.login.mockReturnValue(testUser);
 
-    expect(await userResolver.loginUser('fakeUsername', 'fake')).toEqual(testUser);
+    expect(await userResolver.loginUser('fakeUsername', 'fake')).toEqual(
+      testUser,
+    );
   });
 
   it('should promote user', async () => {

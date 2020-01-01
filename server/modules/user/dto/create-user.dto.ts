@@ -1,9 +1,4 @@
-import {
-  MaxLength,
-  IsString,
-  IsNotEmpty,
-  MinLength,
-} from 'class-validator';
+import { MaxLength, IsString, IsNotEmpty, MinLength } from 'class-validator';
 import { Field, InputType } from 'type-graphql';
 
 import { IUser } from '../interfaces';

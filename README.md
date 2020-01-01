@@ -12,9 +12,13 @@ npm run typeorm:migration:run
 
 npm run seed //if you want to populate DB with some data
 
-npm start
+npm run dev
 
-go to http://localhost:3000/graphql to see GraphQl Playground
+npm start //to start only server
+
+got to http://localhost:3000
+
+go to http://localhost:4000/graphql to see GraphQl Playground
 ```
 
 
@@ -28,7 +32,7 @@ go to http://localhost:3000/graphql to see GraphQl Playground
 ```
 
 ##### There are around 25 unit tests for resolver and service.
-For e2e tests I'm using sqlite db, populating it with seed data. 
+For e2e tests I'm using sqlite db, populating it with seed data.
 
 That way I'm able to cover all integration logic, middlewares and etc without using production DB.
 

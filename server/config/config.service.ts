@@ -41,11 +41,11 @@ class ConfigService {
       username: this.getValue('POSTGRES_USER'),
       password: this.getValue('POSTGRES_PASSWORD'),
       database: this.getValue('POSTGRES_DATABASE'),
-      entities: ['src/modules/user/entities/user.entity.ts'],
+      entities: ['server/modules/user/entities/user.entity.ts'],
       migrationsTableName: 'migration',
-      migrations: ['src/migration/*.ts'],
+      migrations: ['server/migration/*.ts'],
       cli: {
-        migrationsDir: 'src/migration',
+        migrationsDir: 'server/migration',
       },
       ssl: this.isProduction(),
     };
@@ -56,7 +56,7 @@ class ConfigService {
       type: 'sqlite',
       database: ':memory:',
       dropSchema: true,
-      entities: ['src/modules/user/entities/user.entity.ts'],
+      entities: ['server/modules/user/entities/user.entity.ts'],
       synchronize: true,
       logging: false,
     };

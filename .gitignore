@@ -32,8 +32,8 @@ lerna-debug.log*
 !.vscode/tasks.json
 !.vscode/launch.json
 !.vscode/extensions.json
-/src/migration/
+/server/migration/
 .env
 /schema.gql
 /ormconfig.json
-/src/coverage/
+/server/coverage/
