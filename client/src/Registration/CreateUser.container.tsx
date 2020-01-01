@@ -3,6 +3,7 @@ import * as Yup from 'yup';
 import { Formik, FormikHelpers } from 'formik';
 import { path } from 'ramda';
 import { useMutation } from '@apollo/react-hooks';
+import { ExecutionResult } from 'graphql';
 
 import { IRegistrationUserData, CREATE_USER } from '../graphql/mutations';
 import { setToken } from '../helpers/localStorage';
@@ -28,7 +29,9 @@ const initialValues: ICreateUserInitialValues = {
 const handleSubmit = (
   payload: ICreateUserInitialValues,
   actions: FormikHelpers<ICreateUserInitialValues>,
-  createUser: any,
+  createUser: (options: {
+    variables: ICreateUserInitialValues;
+  }) => Promise<ExecutionResult<{ createUser: IRegistrationUserData }>>,
 ) => {
   createUser({ variables: { ...payload } })
     .then(path(['data', 'createUser']))

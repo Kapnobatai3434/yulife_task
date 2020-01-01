@@ -3,6 +3,7 @@ import { Formik, FormikHelpers } from 'formik';
 import * as Yup from 'yup';
 import { useMutation } from '@apollo/react-hooks';
 import { path } from 'ramda';
+import { ExecutionResult } from 'graphql';
 
 import { Form } from './components';
 import { IFormInitialValues } from './interfaces';
@@ -24,7 +25,9 @@ const initialValues: IFormInitialValues = {
 const handleSubmit = (
   payload: IFormInitialValues,
   actions: FormikHelpers<IFormInitialValues>,
-  loginUser: any,
+  loginUser: (options: {
+    variables: IFormInitialValues;
+  }) => Promise<ExecutionResult<{ loginUser: ILoginUserData }>>,
 ) => {
   loginUser({ variables: { ...payload } })
     .then(path(['data', 'loginUser']))
