@@ -2,7 +2,12 @@ import React, { lazy } from 'react';
 import { Switch, Redirect, Route, withRouter } from 'react-router-dom';
 
 const Login = lazy(() =>
-  import('./Login').then(({ LoginContainer }) => ({ default: LoginContainer })),
+  import('./Login').then(({ LoginForm }) => ({ default: LoginForm })),
+);
+const Registration = lazy(() =>
+  import('./Registration').then(({ RegistrationForm }) => ({
+    default: RegistrationForm,
+  })),
 );
 
 const PrivateRoute = ({ component: Component, userType, ...rest }: any) => (
@@ -27,6 +32,7 @@ const PublicRoutes: React.FC<{}> = () => (
   <Switch>
     <Route exact path="/" component={Login} />
     <Route exact path="/login" component={Login} />
+    <Route exact path="/registration" component={Registration} />
     {/*<Route exact path='/404' component={ForOFour} />*/}
     {/*<PrivateRoute userType='admin' path='/dashboard/admin' component={Main} />*/}
     <PrivateRoute userType="user" path="/dashboard/user" component={Login} />

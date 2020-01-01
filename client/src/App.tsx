@@ -1,6 +1,6 @@
 import React, { Suspense } from 'react';
 import { Global } from '@emotion/core';
-import { ThemeProvider, CSSReset, theme, Flex, Box } from '@chakra-ui/core';
+import { ThemeProvider, CSSReset, theme, Flex } from '@chakra-ui/core';
 import { BrowserRouter as Router } from 'react-router-dom';
 import { ApolloProvider } from '@apollo/react-hooks';
 

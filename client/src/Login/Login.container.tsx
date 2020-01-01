@@ -2,10 +2,9 @@ import React from 'react';
 import { Formik, FormikHelpers } from 'formik';
 import * as Yup from 'yup';
 import { useMutation } from '@apollo/react-hooks';
-import { Flex, Box } from '@chakra-ui/core';
 import { path } from 'ramda';
 
-import { LoginForm } from './components';
+import { Form } from './components';
 import { IFormInitialValues } from './interfaces';
 import { ILoginUserData, LOGIN_USER } from '../graphql/mutations';
 import { setToken } from '../helpers/localStorage';
@@ -49,7 +48,7 @@ const LoginContainer: React.FC<{}> = () => {
       onSubmit={(values, actions) => handleSubmit(values, actions, loginUser)}
       validationSchema={LoginSchema}
     >
-      <LoginForm />
+      <Form />
     </Formik>
   );
 };

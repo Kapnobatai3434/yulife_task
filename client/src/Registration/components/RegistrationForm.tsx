@@ -4,6 +4,12 @@ import { Button, Box } from '@chakra-ui/core';
 
 import { Input, ITextInput } from '../../components';
 
+const nameInputProps: ITextInput = {
+  label: 'Name',
+  name: 'name',
+  type: 'text',
+  placeholder: 'Your name',
+};
 const userNameInputProps: ITextInput = {
   label: 'Username',
   name: 'username',
@@ -17,9 +23,12 @@ const passwordInputProps: ITextInput = {
   placeholder: 'Password',
 };
 
-const LoginForm: React.FC<{}> = () => (
+const RegistrationForm: React.FC<{}> = () => (
   <Box p={4}>
     <Form>
+      <Box pt={4}>
+        <Input {...nameInputProps} />
+      </Box>
       <Box pt={4}>
         <Input {...userNameInputProps} />
       </Box>
@@ -33,6 +42,6 @@ const LoginForm: React.FC<{}> = () => (
   </Box>
 );
 
-export { LoginForm };
+export { RegistrationForm };
 
-export default LoginForm;
+export default RegistrationForm;

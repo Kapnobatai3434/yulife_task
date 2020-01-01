@@ -7,7 +7,7 @@ import {
 } from '@chakra-ui/core';
 import { useField, Field } from 'formik';
 
-import { ITextInput } from '../interfaces';
+import { ITextInput } from './index';
 
 const TextInput: React.FC<ITextInput> = props => {
   const [field, meta] = useField(props);
