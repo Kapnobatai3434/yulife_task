@@ -1,6 +1,7 @@
 import React from 'react';
 import { Form } from 'formik';
-import { Button, Box } from '@chakra-ui/core';
+import { Button, Box, Flex } from '@chakra-ui/core';
+import { Link as RouterLink } from 'react-router-dom';
 
 import { Input, ITextInput } from '../../components';
 
@@ -35,9 +36,10 @@ const RegistrationForm: React.FC<{}> = () => (
       <Box pt={4}>
         <Input {...passwordInputProps} />
       </Box>
-      <Box pt={4}>
-        <Button type="submit">Submit</Button>
-      </Box>
+      <Flex justify="space-between" align="center" pt={4}>
+        <Button type="submit">Create Account</Button>
+        <RouterLink to="/login">Already have an account?</RouterLink>
+      </Flex>
     </Form>
   </Box>
 );
