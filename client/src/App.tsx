@@ -7,23 +7,24 @@ import { ApolloProvider } from '@apollo/react-hooks';
 import PublicRoutes from './router';
 import { global } from './globalStyles';
 import client from './graphql/client';
+import { Footer, Header, Main } from './Layout';
 
 const App: React.FC<{}> = () => (
   <Suspense fallback={<h2>Loading...</h2>}>
     <ApolloProvider client={client}>
-      <Router>
-        <ThemeProvider theme={theme}>
-          <Global styles={global} />
-          <CSSReset />
-          <Flex direction="column" h="100%">
-            <Box h="25%" />
-            <Box h="50%">
+      <ThemeProvider theme={theme}>
+        <Global styles={global} />
+        <CSSReset />
+        <Flex direction="column" h="100%">
+          <Router>
+            <Header />
+            <Main>
               <PublicRoutes />
-            </Box>
-            <Box h="25%" />
-          </Flex>
-        </ThemeProvider>
-      </Router>
+            </Main>
+            <Footer />
+          </Router>
+        </Flex>
+      </ThemeProvider>
     </ApolloProvider>
   </Suspense>
 );

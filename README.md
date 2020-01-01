@@ -16,7 +16,7 @@ npm run dev
 
 npm start //to start only server
 
-got to http://localhost:3000
+go to http://localhost:3000
 
 go to http://localhost:4000/graphql to see GraphQl Playground
 ```
