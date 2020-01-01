@@ -12,8 +12,12 @@ import { configService } from '../config';
 import { Seeder } from '../modules/seed/seeder';
 import { users } from '../modules/seed/data';
 import { UserType } from '../modules/user/interfaces';
-import { CREATE_USER, LOGIN_USER } from './mutations';
-import { FIND_ALL_USERS, FIND_BY_ID, WHO_AM_I } from './queries';
+import { CREATE_USER, LOGIN_USER } from '../../client/src/graphql/mutations';
+import {
+  FIND_ALL_USERS,
+  FIND_BY_ID,
+  WHO_AM_I,
+} from '../../client/src/graphql/queries';
 
 describe('e2e', () => {
   let app: INestApplication;
