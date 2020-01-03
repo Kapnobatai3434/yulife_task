@@ -5,7 +5,7 @@ import {
   HttpException,
   HttpStatus,
 } from '@nestjs/common';
-import { GqlExecutionContext } from '@nestjs/graphql';
+import { GqlExecutionContext, GraphQLExecutionContext } from '@nestjs/graphql';
 import * as jwt from 'jsonwebtoken';
 
 import { configService } from '../../../config';
@@ -13,7 +13,8 @@ import { configService } from '../../../config';
 @Injectable()
 export class UserGuard implements CanActivate {
   async canActivate(context: ExecutionContext): Promise<boolean> {
-    const { req }: any = GqlExecutionContext.create(context).getContext();
+    const ctx: GraphQLExecutionContext = GqlExecutionContext.create(context);
+    const { req } = ctx.getContext();
     if (!req || !req.headers || !req.headers.authorization) {
       return false;
     }

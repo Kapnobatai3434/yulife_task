@@ -8,7 +8,7 @@ import { UserEntity } from '../entities';
 import { CurrentUser, Roles } from '../decorators';
 import { UserType } from '../interfaces';
 
-@Resolver(of => UserEntity)
+@Resolver()
 export class UserResolver {
   constructor(private readonly userService: UserService) {}
 

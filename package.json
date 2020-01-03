@@ -23,7 +23,7 @@
     "typeorm": "ts-node -r tsconfig-paths/register ./node_modules/typeorm/cli.js",
     "typeorm:migration:generate": "npm run typeorm -- migration:generate -n",
     "typeorm:migration:run": "npm run typeorm -- migration:run",
-    "seed": "ts-node -r tsconfig-paths/register server/modules/seed/seed.ts",
+    "seed": "ts-node -r tsconfig-paths/register server/scripts/seed/seed.ts",
     "postinstall": "cd client && npm ci"
   },
   "dependencies": {
@@ -34,6 +34,7 @@
     "@nestjs/passport": "^6.1.1",
     "@nestjs/platform-express": "^6.10.13",
     "@nestjs/typeorm": "^6.2.0",
+    "@types/bcryptjs": "^2.4.2",
     "apollo-server-express": "^2.9.15",
     "bcryptjs": "latest",
     "class-transformer": "^0.2.3",

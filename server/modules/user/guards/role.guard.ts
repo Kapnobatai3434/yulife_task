@@ -5,7 +5,7 @@ import {
   UnauthorizedException,
 } from '@nestjs/common';
 import { Reflector } from '@nestjs/core';
-import { GqlExecutionContext } from '@nestjs/graphql';
+import { GqlExecutionContext, GraphQLExecutionContext } from '@nestjs/graphql';
 
 @Injectable()
 export class RolesGuard implements CanActivate {
@@ -16,12 +16,13 @@ export class RolesGuard implements CanActivate {
     if (!roles) {
       return true;
     }
-    const { req }: any = GqlExecutionContext.create(context).getContext();
-    const user = req.user;
-    if (!user) {
+    const ctx: GraphQLExecutionContext = GqlExecutionContext.create(context);
+    const { req } = ctx.getContext();
+
+    if (!req || !req.user) {
       throw new UnauthorizedException();
     }
-    const hasRole = () => user.roles.some(role => roles.includes(role));
-    return user && user.roles && hasRole();
+    const hasRole = () => req.user.roles.some((role: string) => roles.includes(role));
+    return req.user && req.user.roles && hasRole();
   }
 }

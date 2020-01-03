@@ -39,7 +39,13 @@ export class UserService {
     return user;
   }
 
-  async login({ username, password }): Promise<UserEntity> {
+  async login({
+    username,
+    password,
+  }: {
+    username: string;
+    password: string;
+  }): Promise<UserEntity> {
     const user = await this.repo.findOne(
       { username },
       { relations: ['manager', 'subordinates'] },

@@ -9,8 +9,8 @@ import {
 
 import { UserModule } from '../modules/user';
 import { configService } from '../config';
-import { Seeder } from '../modules/seed/seeder';
-import { users } from '../modules/seed/data';
+import { Seeder } from '../scripts/seed/seeder';
+import { users } from '../scripts/seed/data';
 import { UserType } from '../modules/user/interfaces';
 import { CREATE_USER, LOGIN_USER } from '../../client/src/graphql/mutations';
 import {
@@ -22,10 +22,8 @@ import {
 describe('e2e', () => {
   let app: INestApplication;
   let apolloClient: ApolloServerTestClient;
-  let seeder;
-  let token;
-  let mutate;
-  let query;
+  let seeder: Seeder;
+  let token: string;
 
   beforeAll(async () => {
     const moduleFixture: TestingModule = await Test.createTestingModule({
@@ -51,16 +49,13 @@ describe('e2e', () => {
     apolloClient = createTestClient((module as any).apolloServer);
     seeder = moduleFixture.get(Seeder);
 
-    mutate = apolloClient.mutate;
-    query = apolloClient.query;
-
     return Promise.all(users.map(async user => await seeder.seed(user)));
   });
 
   it('should login as admin', async () => {
     const {
       data: { loginUser },
-    }: any = await mutate({
+    }: any = await apolloClient.mutate({
       mutation: LOGIN_USER,
       variables: { username: users[0].username, password: users[0].password },
     });
@@ -77,7 +72,7 @@ describe('e2e', () => {
     };
     const {
       data: { createUser },
-    }: any = await mutate({
+    }: any = await apolloClient.mutate({
       mutation: CREATE_USER,
       variables: { ...fakeUser },
     });
@@ -88,14 +83,14 @@ describe('e2e', () => {
   it('should find user by id', async () => {
     const {
       data: { loginUser },
-    }: any = await mutate({
+    }: any = await apolloClient.mutate({
       mutation: LOGIN_USER,
       variables: { username: users[3].username, password: users[3].password },
     });
 
     const {
       data: { findOneById },
-    }: any = await query({
+    }: any = await apolloClient.query({
       query: FIND_BY_ID,
       variables: { id: loginUser.id },
     });
@@ -108,7 +103,7 @@ describe('e2e', () => {
   it('should query all users', async () => {
     const {
       data: { getUsers },
-    }: any = await query({
+    }: any = await apolloClient.query({
       query: FIND_ALL_USERS,
     });
 
@@ -118,7 +113,7 @@ describe('e2e', () => {
   it('should return admin for whoAmI query', async () => {
     const {
       data: { whoAmI },
-    }: any = await query({
+    }: any = await apolloClient.query({
       query: WHO_AM_I,
     });
 
@@ -129,7 +124,7 @@ describe('e2e', () => {
     token =
       'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjQ1N2I2MWUzLTE3OTctNGM2ZC05NjgyLTk5NjIzMzgyOTA4NiIsInVzZXJuYW1lIjoiZmFrZSIsInJvbGVzIjpbImFkbWluIl0sImlhdCI6MTU3NjQxMTIyMSwiZXhwIjoxNTc2NDEyMTIxfQ.FP9l4z6FO_ex216rbMEZowjSkxxv-BiNA_de0QxUFys';
 
-    const { errors }: any = await query({
+    const { errors }: any = await apolloClient.query({
       query: WHO_AM_I,
     });
 
@@ -140,7 +135,7 @@ describe('e2e', () => {
   it('should trow an error because JWT has the wrong format', async () => {
     token = null;
 
-    const { errors }: any = await query({
+    const { errors }: any = await apolloClient.query({
       query: WHO_AM_I,
     });
 
